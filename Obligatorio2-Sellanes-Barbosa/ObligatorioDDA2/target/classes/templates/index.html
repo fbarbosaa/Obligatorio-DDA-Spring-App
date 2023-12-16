@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Electrodomésticos F&F</title>
+    <!-- Se incluye el estilo de Bootstrap desde un CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Electrodomésticos F&F</h1>
+
+        <!-- Botones de agregar para las dos categorías -->
+        <div class="mb-2">
+            <a th:href="@{/lineaBlanca/lineaBlancaForm}" class="btn btn-outline-primary">Agregar Línea Blanca</a>
+            <a th:href="@{/usoPersonal/usoPersonalForm}" class="btn btn-outline-primary">Agregar Uso Personal</a>
+            <a th:href="@{/usoPersonal}" class="btn btn-outline-success">Lista Uso Personal</a>
+            <a th:href="@{/lineaBlanca}" class="btn  btn-outline-success">Lista Linea Blanca</a>
+        </div>
+
+        <!-- Lista de Uso Personal -->
+        <table class="table table-hover" th:if="${not #lists.isEmpty(usoPersonal)}">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Modelo</th>
+                    <th>Marca</th>
+                    <th>Precio</th>
+                    <th>Potencia</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Iteración sobre la lista de electrodomésticos de uso personal -->
+                <tr th:each="electrodomestico : ${usoPersonal}">
+                    <td th:text="${electrodomestico.id}"></td>
+                    <td th:text="${electrodomestico.nombre}"></td>
+                    <td th:text="${electrodomestico.modelo}"></td>
+                    <td th:text="${electrodomestico.marca}"></td>
+                    <td th:text="${electrodomestico.precio}"></td>
+                    <td th:text="${electrodomestico.potencia}"></td>
+                    <td>
+                        <!-- Enlace para editar y formulario para eliminar un electrodoméstico -->
+                        <a th:href="@{'/usoPersonal/editar/' + ${electrodomestico.id}}" class="btn btn-primary mb-2">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <form th:action="@{'/usoPersonal/eliminar/' + ${electrodomestico.id}}" method="post"
+                              onsubmit="return confirm('¿Está seguro de eliminar este electrodoméstico?');">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <button class="btn btn-danger" type="submit">
+                                <i class="fas fa-trash-alt"></i> Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Lista de Línea Blanca -->
+        <table class="table table-hover" th:if="${not #lists.isEmpty(lineaBlanca)}">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Modelo</th>
+                    <th>Marca</th>
+                    <th>Precio</th>
+                    <th>Capacidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Iteración sobre la lista de electrodomésticos de línea blanca -->
+                <tr th:each="electrodomestico : ${lineaBlanca}">
+                    <td th:text="${electrodomestico.id}"></td>
+                    <td th:text="${electrodomestico.nombre}"></td>
+                    <td th:text="${electrodomestico.modelo}"></td>
+                    <td th:text="${electrodomestico.marca}"></td>
+                    <td th:text="${electrodomestico.precio}"></td>
+                    <td th:text="${electrodomestico.capacidad}"></td>
+                    <td>
+                        <!-- Enlace para editar y formulario para eliminar un electrodoméstico -->
+                        <a th:href="@{'/lineaBlanca/editar/' + ${electrodomestico.id}}" class="btn btn-primary mb-2">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <form th:action="@{'/lineaBlanca/eliminar/' + ${electrodomestico.id}}" method="post"
+                              onsubmit="return confirm('¿Está seguro de eliminar este electrodoméstico?');">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <button class="btn btn-danger" type="submit">
+                                <i class="fas fa-trash-alt"></i> Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
